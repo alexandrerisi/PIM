@@ -1,4 +1,4 @@
-package nl.zamro.pim.Configuration;
+package nl.zamro.pim.configuration;
 
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.domain.Product;
