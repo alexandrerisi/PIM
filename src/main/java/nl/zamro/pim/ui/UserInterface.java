@@ -11,6 +11,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.ButtonRenderer;
@@ -23,6 +24,9 @@ import nl.zamro.pim.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
+import java.util.Set;
+
 @Theme("valo")
 @SpringUI
 public class UserInterface extends UI {
@@ -32,6 +36,10 @@ public class UserInterface extends UI {
     @Autowired
     private ProductService productService;
     private VerticalLayout mainLayout = new VerticalLayout();
+    private Collection<Category> categories;
+    private Collection<Product> products;
+    private TableControl categoriesControl;
+    private TableControl productsControl;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -40,7 +48,9 @@ public class UserInterface extends UI {
     }
 
     private void buildUI() {
-        Grid<Category> categoryGrid = new Grid<>(new ListDataProvider<>(categoryService.getAllCategories()));
+        categories = categoryService.getAllCategories();
+        categoriesControl = new TableControl();
+        Grid<Category> categoryGrid = new Grid<>(new ListDataProvider<>(categories));
         categoryGrid.setCaption("Categories");
         categoryGrid.setSizeFull();
         categoryGrid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -50,9 +60,11 @@ public class UserInterface extends UI {
             // todo allow edit
         }));
         mainLayout.addComponent(categoryGrid);
-        mainLayout.addComponent(new TableControl());
+        mainLayout.addComponent(categoriesControl);
 
-        Grid<Product> productGrid = new Grid<>(new ListDataProvider<>(productService.getAllProducts()));
+        products = productService.getAllProducts();
+        productsControl = new TableControl();
+        Grid<Product> productGrid = new Grid<>(new ListDataProvider<>(products));
         productGrid.setCaption("Products");
         productGrid.setSizeFull();
         productGrid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -67,40 +79,55 @@ public class UserInterface extends UI {
             // todo allow edit
         }));
         mainLayout.addComponent(productGrid);
-        mainLayout.addComponent(new TableControl());
-    }
-}
+        mainLayout.addComponent(productsControl);
 
-class TableControl extends HorizontalLayout {
-
-    private Button add = new Button("Add");
-    private Button remove = new Button("Remove");
-    private Button export = new Button("Export");
-
-    TableControl() {
-        ComboBox<String> format = new ComboBox<>("Format");
-        addComponents(add, remove, format, export);
-        setComponentAlignment(add, Alignment.BOTTOM_CENTER);
-        setComponentAlignment(remove, Alignment.BOTTOM_CENTER);
-        setComponentAlignment(format, Alignment.BOTTOM_CENTER);
-        setComponentAlignment(export, Alignment.BOTTOM_CENTER);
-        format.setDataProvider(new ListDataProvider<String>(List.of("xml", "csv", "xls")));
-
-        format.setEmptySelectionAllowed(false);
-        format.setTextInputAllowed(false);
-        export.setEnabled(false);
-        format.addValueChangeListener((HasValue.ValueChangeListener<String>) event -> export.setEnabled(true));
+        categoriesControl.setTotal(categories.size());
+        productsControl.setTotal(products.size());
     }
 
-    void setAddListener(Button.ClickListener listener) {
-        add.addClickListener(listener);
-    }
+    class TableControl<T> extends HorizontalLayout {
 
-    void setRemoveListener(Button.ClickListener listener) {
-        remove.addClickListener(listener);
-    }
+        private Button add = new Button("Add");
+        private Button remove = new Button("Remove");
+        private Button export = new Button("Export");
+        private Label total = new Label();
 
-    void setExportListener(Button.ClickListener listener) {
-        export.addClickListener(listener);
+        TableControl() {
+            ComboBox<String> format = new ComboBox<>("Format");
+            addComponents(add, remove, format, export, total);
+            setComponentAlignment(add, Alignment.BOTTOM_CENTER);
+            setComponentAlignment(remove, Alignment.BOTTOM_CENTER);
+            setComponentAlignment(format, Alignment.BOTTOM_CENTER);
+            setComponentAlignment(export, Alignment.BOTTOM_CENTER);
+            setComponentAlignment(total, Alignment.BOTTOM_CENTER);
+            format.setDataProvider(new ListDataProvider<String>(List.of("xml", "csv", "xls")));
+
+            format.setEmptySelectionAllowed(false);
+            format.setTextInputAllowed(false);
+            export.setEnabled(false);
+            format.addValueChangeListener((HasValue.ValueChangeListener<String>) event -> export.setEnabled(true));
+        }
+
+        void setAddListener(Grid<T> grid) {
+            add.addClickListener((Button.ClickListener) event -> {
+                Set<T> items =  grid.getSelectedItems();
+            });
+        }
+
+        void setRemoveListener(Grid<T> grid) {
+            remove.addClickListener((Button.ClickListener) event -> {
+                Set<T> items =  grid.getSelectedItems();
+            });
+        }
+
+        void setExportListener(Grid<T> grid) {
+            export.addClickListener((Button.ClickListener) event -> {
+                Set<T> items =  grid.getSelectedItems();
+            });
+        }
+
+        void setTotal(int i) {
+            total.setValue("Total: " + i);
+        }
     }
 }
