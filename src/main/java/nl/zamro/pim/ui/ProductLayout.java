@@ -8,13 +8,14 @@ import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.renderers.HtmlRenderer;
 
 import nl.zamro.pim.domain.Product;
+import nl.zamro.pim.ui.category.CategoryUserInterface;
 
 public class ProductLayout extends VerticalLayout {
 
     public ProductLayout() {
-        UserInterface ui = (UserInterface) UI.getCurrent();
+        CategoryUserInterface ui = (CategoryUserInterface) UI.getCurrent();
         TableControl productsControl = new TableControl();
-        Grid<Product> productGrid = new Grid<>(new ListDataProvider<>(ui.productService.getAllProducts()));
+        /*Grid<Product> productGrid = new Grid<>(new ListDataProvider<>(ui.productService.getAllProducts()));
         productGrid.setCaption("Products");
         productGrid.setSizeFull();
         productGrid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -32,6 +33,6 @@ public class ProductLayout extends VerticalLayout {
         productsControl.setTotal(((ListDataProvider<Product>) productGrid.getDataProvider()).getItems().size());
 
         addComponent(productGrid);
-        addComponent(productsControl);
+        addComponent(productsControl);*/
     }
 }

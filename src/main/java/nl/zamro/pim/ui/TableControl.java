@@ -11,7 +11,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
-class TableControl extends HorizontalLayout {
+public class TableControl extends HorizontalLayout {
 
     private Button add = new Button("Add");
     private Button remove = new Button("Remove");
@@ -21,7 +21,7 @@ class TableControl extends HorizontalLayout {
     private ComboBox<String> format;
     private Label total = new Label();
 
-    TableControl() {
+    public TableControl() {
         format = new ComboBox<>("Format");
         export.setId("Export Button");
         addComponents(add, remove, format, export, total);
@@ -37,46 +37,46 @@ class TableControl extends HorizontalLayout {
         export.setEnabled(false);
     }
 
-    void setAddListener(Button.ClickListener listener) {
+    public void setAddListener(Button.ClickListener listener) {
         add.addClickListener(listener);
     }
 
-    void setRemoveListener(Button.ClickListener listener) {
+    public void setRemoveListener(Button.ClickListener listener) {
         remove.addClickListener(listener);
     }
 
-    void setExportListener(Button.ClickListener listener) {
+    public void setExportListener(Button.ClickListener listener) {
         export.addClickListener(listener);
     }
 
-    void setStreamResource(StreamResource resource) {
+    public void setStreamResource(StreamResource resource) {
         streamResource = resource;
         downloader = new FileDownloader(streamResource);
         downloader.extend(export);
     }
 
-    void removeStreamResource() {
+    public void removeStreamResource() {
         downloader = null;
         streamResource = null;
     }
 
-    void setFormatSelectorListener(HasValue.ValueChangeListener<String> listener) {
+    public void setFormatSelectorListener(HasValue.ValueChangeListener<String> listener) {
         format.addValueChangeListener(listener);
     }
 
-    Button getExportButton() {
+    public Button getExportButton() {
         return export;
     }
 
-    void setExportButton(Button b) {
+    public void setExportButton(Button b) {
         export = b;
     }
 
-    ComboBox<String> getFormatSelector() {
+    public ComboBox<String> getFormatSelector() {
         return format;
     }
 
-    String getFormat() {
+    public String getFormat() {
         return format.getValue();
     }
 

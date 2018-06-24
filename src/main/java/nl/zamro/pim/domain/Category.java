@@ -1,10 +1,10 @@
 package nl.zamro.pim.domain;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 @AllArgsConstructor
 @Data
 @ToString(exclude = "products")
-@EqualsAndHashCode
 public class Category {
 
     @Id
@@ -30,5 +29,19 @@ public class Category {
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

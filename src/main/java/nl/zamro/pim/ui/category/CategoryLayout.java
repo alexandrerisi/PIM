@@ -1,4 +1,4 @@
-package nl.zamro.pim.ui;
+package nl.zamro.pim.ui.category;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
@@ -8,6 +8,7 @@ import com.vaadin.ui.renderers.ButtonRenderer;
 
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.service.exporter.DataExporter;
+import nl.zamro.pim.ui.TableControl;
 
 import java.util.Collection;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
 class CategoryLayout extends VerticalLayout {
 
     CategoryLayout() {
-        UserInterface ui = ((UserInterface) UI.getCurrent());
+        CategoryUserInterface ui = ((CategoryUserInterface) UI.getCurrent());
         Grid<Category> grid = new Grid<>(new ListDataProvider<>(ui.categoryService.getAllCategories()));
         grid.setCaption("Categories");
         grid.setSizeFull();
@@ -23,11 +24,14 @@ class CategoryLayout extends VerticalLayout {
         grid.addColumn(Category::getId).setCaption("ID");
         grid.addColumn(Category::getName).setCaption("NAME");
         grid.addColumn(category -> "EDIT", new ButtonRenderer<>(clickEvent -> {
-            // todo allow edit
+            Category cat = clickEvent.getItem();
+            CategoryWindow editWindow = new CategoryWindow(ui.categoryService, grid, cat);
+            ui.addWindow(editWindow);
+            editWindow.setValues(cat.getId() + "", cat.getName());
         }));
         TableControl control = new TableControl();
         control.setAddListener((Button.ClickListener) event -> {
-            CategoryWindow window = new CategoryWindow(ui.categoryService, grid);
+            CategoryWindow window = new CategoryWindow(ui.categoryService, grid, null);
             window.setVisible(true);
             ui.addWindow(window);
         });

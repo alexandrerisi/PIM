@@ -1,4 +1,4 @@
-package nl.zamro.pim.ui;
+package nl.zamro.pim.ui.category;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
@@ -10,8 +10,8 @@ import nl.zamro.pim.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Theme("valo")
-@SpringUI
-public class UserInterface extends UI {
+@SpringUI(path = "/categories")
+public class CategoryUserInterface extends UI {
 
     @Autowired
     CategoryService categoryService;
