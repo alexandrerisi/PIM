@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -22,12 +21,16 @@ public class CategoryService {
     private ProductRepository productRepository;
 
     @Transactional
-    public void removeCategoryById(int id) {
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            productRepository.removeByCategory(category.get());
-            categoryRepository.delete(category.get());
+    public void removeCategories(Collection<Category> categories) {
+        if (!categories.isEmpty()) {
+            for (Category c : categories)
+                productRepository.removeByCategory(c);
+            categoryRepository.deleteAll(categories);
         }
+    }
+
+    public void addCategory(Category c) {
+        categoryRepository.save(c);
     }
 
     public Collection<Category> getAllCategories() {
