@@ -14,13 +14,13 @@ the categories and products will be automatically loaded on the start up.
 UI for the categories in - /categories
 UI for the products in - /products
 
-REST endpoints for Category
+REST endpoints for Category:
 -Get Category -> /rest/category
 -Save category -> /rest/save-category
 -Remove Category -> /rest/remove-category
 -Get All Categories - /rest/all-categories
 
-REST endpoints for Product
+REST endpoints for Product:
 -Get Product -> /rest/product
 -Save category -> /rest/save-product
 -Remove Category -> /rest/remove-product
