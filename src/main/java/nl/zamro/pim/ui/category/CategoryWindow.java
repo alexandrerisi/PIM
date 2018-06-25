@@ -1,6 +1,5 @@
 package nl.zamro.pim.ui.category;
 
-import com.sun.tools.javac.util.List;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -12,6 +11,7 @@ import com.vaadin.ui.Window;
 
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.service.CategoryService;
+import org.vaadin.ui.NumberField;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,14 +19,13 @@ import java.util.Set;
 class CategoryWindow extends Window {
 
     private VerticalLayout layout;
-    private TextField id = new TextField("ID");
+    private NumberField id = new NumberField("ID");
     private TextField name = new TextField("NAME");
     private CategoryService service;
     private Grid<Category> grid;
     private Category toBeModified;
 
     CategoryWindow(CategoryService service, Grid<Category> grid, Category toBeModified) {
-        this.toBeModified = toBeModified;
         this.service = service;
         this.grid = grid;
         setCaption("Add/Modify Category");
@@ -37,6 +36,11 @@ class CategoryWindow extends Window {
         add.addClickListener((Button.ClickListener) event -> saveCategory());
         center();
         setContent(layout);
+
+        if (toBeModified != null) {
+            this.toBeModified = toBeModified;
+            loadCategoryInfo();
+        }
     }
 
     private void saveCategory() {
@@ -46,12 +50,9 @@ class CategoryWindow extends Window {
             else {
                 Set<Category> col = new HashSet<>(((ListDataProvider<Category>) grid.getDataProvider()).getItems());
                 Category category = new Category(Integer.parseInt(id.getValue()), name.getValue());
-
-                if (toBeModified != null) {
-                    service.removeCategories(List.of(toBeModified));
+                service.saveCategory(category);
+                if (toBeModified != null)
                     col.remove(toBeModified);
-                }
-                service.addCategory(category);
                 col.add(category);
                 grid.setItems(col);
                 close();
@@ -60,8 +61,8 @@ class CategoryWindow extends Window {
             layout.addComponent(new Label("Only Numbers are allowed for the ID."));
     }
 
-    void setValues(String id, String name) {
-        this.id.setValue(id);
-        this.name.setValue(name);
+    void loadCategoryInfo() {
+        this.id.setValue(toBeModified.getId() + "");
+        this.name.setValue(toBeModified.getName());
     }
 }

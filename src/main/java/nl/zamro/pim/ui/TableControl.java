@@ -1,6 +1,5 @@
 package nl.zamro.pim.ui;
 
-import com.sun.tools.javac.util.List;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.FileDownloader;
@@ -10,6 +9,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TableControl extends HorizontalLayout {
 
@@ -30,7 +32,8 @@ public class TableControl extends HorizontalLayout {
         setComponentAlignment(format, Alignment.BOTTOM_CENTER);
         setComponentAlignment(export, Alignment.BOTTOM_CENTER);
         setComponentAlignment(total, Alignment.BOTTOM_CENTER);
-        format.setDataProvider(new ListDataProvider<String>(List.of("xml", "csv", "json")));
+        String[] options = { "xml", "csv", "json" };
+        format.setDataProvider(new ListDataProvider<String>(Arrays.asList(options)));
 
         format.setEmptySelectionAllowed(false);
         format.setTextInputAllowed(false);

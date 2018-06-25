@@ -38,9 +38,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.vaadin.ui</groupId>
+            <artifactId>numberfield</artifactId>
+            <version>0.2.0</version>
         </dependency>
 
         <dependency>
@@ -78,6 +85,13 @@
         </dependencies>
     </dependencyManagement>
 
+    <repositories>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
@@ -86,6 +100,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

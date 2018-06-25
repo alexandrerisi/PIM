@@ -27,7 +27,6 @@ class CategoryLayout extends VerticalLayout {
             Category cat = clickEvent.getItem();
             CategoryWindow editWindow = new CategoryWindow(ui.categoryService, grid, cat);
             ui.addWindow(editWindow);
-            editWindow.setValues(cat.getId() + "", cat.getName());
         }));
         TableControl control = new TableControl();
         control.setAddListener((Button.ClickListener) event -> {
@@ -58,7 +57,7 @@ class CategoryLayout extends VerticalLayout {
                     control.addComponent(newExport);
                     control.setComponentAlignment(newExport, Alignment.BOTTOM_CENTER);
                     return dataExporter.generateExport(selected);
-                }, "export." + control.getFormat());
+                }, "category_export." + control.getFormat());
                 control.setStreamResource(streamResource);
             });
         });

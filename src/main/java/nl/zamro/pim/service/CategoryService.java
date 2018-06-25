@@ -29,7 +29,13 @@ public class CategoryService {
         }
     }
 
-    public void addCategory(Category c) {
+    @Transactional
+    public void removeCategory(Category category) {
+        productRepository.removeByCategory(category);
+        categoryRepository.delete(category);
+    }
+
+    public void saveCategory(Category c) {
         categoryRepository.save(c);
     }
 
