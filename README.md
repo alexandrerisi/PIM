@@ -15,9 +15,9 @@ UI for the categories in - /categories
 UI for the products in - /products
 
 REST endpoints for Category:
--Get Category -> /rest/category
--Save category -> /rest/save-category
--Remove Category -> /rest/remove-category
+-Get Category -> /rest/category\n
+-Save category -> /rest/save-category\n
+-Remove Category -> /rest/remove-category\n
 -Get All Categories - /rest/all-categories
 
 REST endpoints for Product:
