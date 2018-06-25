@@ -9,12 +9,6 @@ Frameworks Used:
 - Lombok
 - H2
 
-Instructions - To run the application go to root folder and run it using ./mvnw spring-boot:run,
-the categories and products will be automatically loaded on the start up. All categories and products will be imported into a database.
-
-UI for the categories in - /categories
-UI for the products in - /products
-
 REST endpoints for Category:
 -Get Category = /rest/category
 -Save category = /rest/save-category
@@ -22,7 +16,14 @@ REST endpoints for Category:
 -Get All Categories = /rest/all-categories
 
 REST endpoints for Product:
--Get Product = /rest/product
--Save category = /rest/save-product
--Remove Category = /rest/remove-product
--Get All Categories = /rest/all-products
+-Get Product = /rest/product.
+-Save category = /rest/save-product.
+-Remove Category = /rest/remove-product.
+-Get All Categories = /rest/all-products.
+
+UI for the categories in - /categories.
+UI for the products in - /products.
+
+Instructions - To run the application go to root folder and run it using ./mvnw spring-boot:run,
+the categories and products will be automatically loaded on the start up. All categories and products will be imported into a database.
+
