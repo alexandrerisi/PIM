@@ -17,6 +17,7 @@ class CategoryLayout extends VerticalLayout {
 
     CategoryLayout() {
         CategoryUserInterface ui = ((CategoryUserInterface) UI.getCurrent());
+        TableControl control = new TableControl();
         Grid<Category> grid = new Grid<>(new ListDataProvider<>(ui.categoryService.getAllCategories()));
         grid.setCaption("Categories");
         grid.setSizeFull();
@@ -25,14 +26,14 @@ class CategoryLayout extends VerticalLayout {
         grid.addColumn(Category::getName).setCaption("NAME");
         grid.addColumn(category -> "EDIT", new ButtonRenderer<>(clickEvent -> {
             Category cat = clickEvent.getItem();
-            CategoryWindow editWindow = new CategoryWindow(ui.categoryService, grid, cat);
+            CategoryWindow editWindow = new CategoryWindow(ui.categoryService, grid, cat, control);
             ui.addWindow(editWindow);
         }));
-        TableControl control = new TableControl();
         control.setAddListener((Button.ClickListener) event -> {
-            CategoryWindow window = new CategoryWindow(ui.categoryService, grid, null);
+            CategoryWindow window = new CategoryWindow(ui.categoryService, grid, null, control);
             window.setVisible(true);
             ui.addWindow(window);
+            control.setTotal(((ListDataProvider<Category>) grid.getDataProvider()).getItems().size());
         });
         control.setRemoveListener((Button.ClickListener) event -> {
             Set<Category> selectedItems = grid.getSelectedItems();
@@ -40,6 +41,7 @@ class CategoryLayout extends VerticalLayout {
             Collection<Category> categoryCollection = ((ListDataProvider<Category>) grid.getDataProvider()).getItems();
             categoryCollection.removeAll(selectedItems);
             grid.setItems(categoryCollection);
+            control.setTotal(categoryCollection.size());
         });
         control.setFormatSelectorListener((HasValue.ValueChangeListener<String>) event -> {
             control.getExportButton().setEnabled(true);
@@ -61,6 +63,7 @@ class CategoryLayout extends VerticalLayout {
                 control.setStreamResource(streamResource);
             });
         });
+        control.setTotal(((ListDataProvider<Category>) grid.getDataProvider()).getItems().size());
         addComponent(grid);
         addComponent(control);
     }

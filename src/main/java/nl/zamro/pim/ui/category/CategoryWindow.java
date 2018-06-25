@@ -11,6 +11,7 @@ import com.vaadin.ui.Window;
 
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.service.CategoryService;
+import nl.zamro.pim.ui.TableControl;
 import org.vaadin.ui.NumberField;
 
 import java.util.HashSet;
@@ -24,10 +25,12 @@ class CategoryWindow extends Window {
     private CategoryService service;
     private Grid<Category> grid;
     private Category toBeModified;
+    private TableControl control;
 
-    CategoryWindow(CategoryService service, Grid<Category> grid, Category toBeModified) {
+    CategoryWindow(CategoryService service, Grid<Category> grid, Category toBeModified, TableControl control) {
         this.service = service;
         this.grid = grid;
+        this.control = control;
         setCaption("Add/Modify Category");
         layout = new VerticalLayout();
         Button add = new Button("SAVE CATEGORY");
@@ -55,13 +58,14 @@ class CategoryWindow extends Window {
                     col.remove(toBeModified);
                 col.add(category);
                 grid.setItems(col);
+                control.setTotal(col.size());
                 close();
             }
         } else
             layout.addComponent(new Label("Only Numbers are allowed for the ID."));
     }
 
-    void loadCategoryInfo() {
+    private void loadCategoryInfo() {
         this.id.setValue(toBeModified.getId() + "");
         this.name.setValue(toBeModified.getName());
     }

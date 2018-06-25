@@ -5,6 +5,7 @@ import com.vaadin.ui.*;
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.domain.Product;
 import nl.zamro.pim.service.ProductService;
+import nl.zamro.pim.ui.TableControl;
 import org.vaadin.ui.NumberField;
 
 import java.util.Collection;
@@ -22,12 +23,15 @@ class ProductWindow extends Window {
     private NativeSelect<Category> categorySelector = new NativeSelect<>("Category");
     private NumberField price = new NumberField("Price");
     private CheckBox isAvailable = new CheckBox("Is Available? ");
+    private TableControl control;
 
     private ProductService service;
     private Grid<Product> grid;
     private Product toBeModified;
 
-    ProductWindow(ProductService service, Collection<Category> categories, Grid<Product> grid, Product toBeModified) {
+    ProductWindow(ProductService service, Collection<Category> categories, Grid<Product> grid, Product toBeModified,
+                  TableControl control) {
+        this.control = control;
         this.service = service;
         this.grid = grid;
         categorySelector.setDataProvider(new ListDataProvider<>(categories));
@@ -65,6 +69,7 @@ class ProductWindow extends Window {
             service.saveProduct(newProduct);
             col.add(newProduct);
             grid.setItems(col);
+            control.setTotal(col.size());
             close();
         }
     }

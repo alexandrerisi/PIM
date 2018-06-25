@@ -32,21 +32,24 @@ class ProductLayout extends VerticalLayout {
         grid.addColumn(Product::isAvailable).setCaption("AVAILABLE");
         grid.addColumn(product -> "Edit", new ButtonRenderer<>(clickEvent -> {
             Product p = clickEvent.getItem();
-            Window window = new ProductWindow(ui.productService, ui.categoryService.getAllCategories(), grid, p);
+            Window window = new ProductWindow(
+                    ui.productService, ui.categoryService.getAllCategories(), grid, p, control);
             ui.addWindow(window);
             window.setVisible(true);
         }));
         control.setAddListener((Button.ClickListener) clickEvent -> {
-            Window window = new ProductWindow(ui.productService, ui.categoryService.getAllCategories(), grid, null);
+            Window window = new ProductWindow(
+                    ui.productService, ui.categoryService.getAllCategories(), grid, null, control);
             ui.addWindow(window);
             window.setVisible(true);
         });
         control.setRemoveListener((Button.ClickListener) clickEvent -> {
             Set<Product> selectedItems = grid.getSelectedItems();
             ui.productService.removeProducts(selectedItems);
-            Collection<Product> toBeRemoved = ((ListDataProvider<Product>) grid.getDataProvider()).getItems();
-            toBeRemoved.removeAll(selectedItems);
-            grid.setItems(toBeRemoved);
+            Collection<Product> products = ((ListDataProvider<Product>) grid.getDataProvider()).getItems();
+            products.removeAll(selectedItems);
+            grid.setItems(products);
+            control.setTotal(products.size());
         });
         control.setFormatSelectorListener((HasValue.ValueChangeListener<String>) event -> {
             control.getExportButton().setEnabled(true);
@@ -68,8 +71,7 @@ class ProductLayout extends VerticalLayout {
                 control.setStreamResource(streamResource);
             });
         });
-
-        //productsControl.setTotal(((ListDataProvider<Product>) productGrid.getDataProvider()).getItems().size());
+        control.setTotal(((ListDataProvider<Product>) grid.getDataProvider()).getItems().size());
         addComponent(grid);
         addComponent(control);
     }

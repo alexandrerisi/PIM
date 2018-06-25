@@ -10,15 +10,12 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TableControl extends HorizontalLayout {
 
     private Button add = new Button("Add");
     private Button remove = new Button("Remove");
-    private StreamResource streamResource;
-    private FileDownloader downloader;
     private Button export = new Button("Generate Export");
     private ComboBox<String> format;
     private Label total = new Label();
@@ -53,14 +50,8 @@ public class TableControl extends HorizontalLayout {
     }
 
     public void setStreamResource(StreamResource resource) {
-        streamResource = resource;
-        downloader = new FileDownloader(streamResource);
+        FileDownloader downloader = new FileDownloader(resource);
         downloader.extend(export);
-    }
-
-    public void removeStreamResource() {
-        downloader = null;
-        streamResource = null;
     }
 
     public void setFormatSelectorListener(HasValue.ValueChangeListener<String> listener) {
@@ -83,7 +74,7 @@ public class TableControl extends HorizontalLayout {
         return format.getValue();
     }
 
-    void setTotal(int i) {
+    public void setTotal(int i) {
         total.setValue("Total: " + i);
     }
 }
