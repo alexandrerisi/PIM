@@ -36,7 +36,6 @@ public class ProductRestController {
         toBeRemoved.ifPresent(product -> repository.delete(product));
     }
 
-    // ?id=ABC123&name=Product_Test&description=blablabla&min_order=2&measure_unit=pounds&category_id=123&price=12&is_available=true
     @RequestMapping("/rest/save-product")
     public void saveCategory(@RequestParam(value = "id") String id,
                              @RequestParam(value = "name") String name,

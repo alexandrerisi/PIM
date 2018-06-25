@@ -13,8 +13,8 @@ public class CategoryJsonExporter implements DataExporter {
         Collection<Category> categories = (Collection<Category>) collection;
         StringBuilder sb = new StringBuilder("{ categories: [ ");
         for (Category c : categories) {
-            sb.append(" { CategoryID : \"").append(c.getId()).append("\",").
-                    append(" Name: ").append("\"").append(c.getName()).append("\" },");
+            sb.append("{ CategoryID : ").append(c.getId()).append(",").
+                    append(" Name : ").append("\"").append(c.getName()).append("\" },");
         }
         sb.delete(sb.length() - 1, sb.length());
         sb.append(" ] }");

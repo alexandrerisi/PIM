@@ -37,7 +37,7 @@ public class CategoryRestController {
             repository.delete(toBeRemoved.get());
         }
     }
-    // ?id=123&name=category1
+
     @RequestMapping("/rest/save-category")
     public void saveCategory(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name) {
         Category category = new Category(id, name);
