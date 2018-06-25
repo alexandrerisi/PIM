@@ -7,9 +7,10 @@ Frameworks Used:
 - Vaadin
 - Commons-csv
 - Lombok
+- H2
 
 Instructions - To run the application go to root folder and run it using ./mvnw spring-boot:run,
-the categories and products will be automatically loaded on the start up.
+the categories and products will be automatically loaded on the start up. All categories and products will be imported into a database.
 
 UI for the categories in - /categories
 UI for the products in - /products
