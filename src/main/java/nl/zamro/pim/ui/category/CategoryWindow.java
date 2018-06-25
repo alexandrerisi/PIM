@@ -17,6 +17,9 @@ import org.vaadin.ui.NumberField;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Window to insert and modify categories.
+ */
 class CategoryWindow extends Window {
 
     private VerticalLayout layout;

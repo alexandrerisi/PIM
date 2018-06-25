@@ -14,6 +14,9 @@ import nl.zamro.pim.ui.TableControl;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Creates all the layout for the Products UI.
+ */
 class ProductLayout extends VerticalLayout {
 
     ProductLayout() {

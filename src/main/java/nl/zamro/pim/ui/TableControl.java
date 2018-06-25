@@ -12,6 +12,9 @@ import com.vaadin.ui.Label;
 
 import java.util.Arrays;
 
+/**
+ * Creates the components used to manipulate the table.
+ */
 public class TableControl extends HorizontalLayout {
 
     private Button add = new Button("Add");

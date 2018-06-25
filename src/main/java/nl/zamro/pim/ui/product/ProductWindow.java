@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Window to insert and modify products.
+ */
 class ProductWindow extends Window {
 
     private VerticalLayout layout;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -44,4 +45,9 @@ public class CategoryService {
         categoryRepository.findAll().forEach(categories::add);
         return categories;
     }
+
+    public Optional<Category> getById(int id) {
+        return categoryRepository.findById(id);
+    }
+
 }
