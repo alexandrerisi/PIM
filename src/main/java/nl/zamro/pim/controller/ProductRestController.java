@@ -2,8 +2,6 @@ package nl.zamro.pim.controller;
 
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.domain.Product;
-import nl.zamro.pim.repository.CategoryRepository;
-import nl.zamro.pim.repository.ProductRepository;
 import nl.zamro.pim.service.CategoryService;
 import nl.zamro.pim.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
