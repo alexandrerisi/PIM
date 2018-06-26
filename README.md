@@ -2,6 +2,7 @@
 Product Information Management
 
 Frameworks Used:
+- Java 8
 - SpringBoot
 - SpringData
 - Vaadin
