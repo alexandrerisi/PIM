@@ -9,6 +9,7 @@ import com.vaadin.ui.renderers.ButtonRenderer;
 import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.service.exporter.DataExporter;
 import nl.zamro.pim.ui.TableControl;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import java.util.Collection;
 import java.util.Set;
@@ -39,12 +40,18 @@ class CategoryLayout extends VerticalLayout {
             control.setTotal(((ListDataProvider<Category>) grid.getDataProvider()).getItems().size());
         });
         control.setRemoveListener((Button.ClickListener) event -> {
-            Set<Category> selectedItems = grid.getSelectedItems();
-            ui.categoryService.removeCategories(selectedItems);
-            Collection<Category> categoryCollection = ((ListDataProvider<Category>) grid.getDataProvider()).getItems();
-            categoryCollection.removeAll(selectedItems);
-            grid.setItems(categoryCollection);
-            control.setTotal(categoryCollection.size());
+            ConfirmDialog.show(ui, "Warning! ", "This will also remove all products attached to this category.",
+                    "OK", "Cancel", (ConfirmDialog.Listener) confirmDialog -> {
+                        if (confirmDialog.isConfirmed()) {
+                            Set<Category> selectedItems = grid.getSelectedItems();
+                            ui.categoryService.removeCategories(selectedItems);
+                            Collection<Category> categoryCollection =
+                                    ((ListDataProvider<Category>) grid.getDataProvider()).getItems();
+                            categoryCollection.removeAll(selectedItems);
+                            grid.setItems(categoryCollection);
+                            control.setTotal(categoryCollection.size());
+                        }
+                    });
         });
         control.setFormatSelectorListener((HasValue.ValueChangeListener<String>) event -> {
             control.getExportButton().setEnabled(true);

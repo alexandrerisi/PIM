@@ -21,6 +21,5 @@ public class CategoryUserInterface extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         setContent(new CategoryLayout());
-        //setContent(new ProductLayout());
     }
 }
