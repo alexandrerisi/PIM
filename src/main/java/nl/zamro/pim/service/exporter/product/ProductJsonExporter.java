@@ -18,7 +18,7 @@ public class ProductJsonExporter implements DataExporter {
             sb.append("Description : \"").append(p.getDescription()).append("\",");
             sb.append("MinOrderQuantity : ").append(p.getMinOrderQuantity()).append(",");
             sb.append("UnitOfMeasure : \"").append(p.getUnitOfMeasure()).append("\",");
-            sb.append("CategoryID : ").append(p.getCategory()).append(",");
+            sb.append("CategoryID : ").append(p.getCategory().getId()).append(",");
             sb.append("PurchasePrice : ").append(p.getPrice()).append(",");
             sb.append("Available : ").append(p.isAvailable()).append(" },");
         }
