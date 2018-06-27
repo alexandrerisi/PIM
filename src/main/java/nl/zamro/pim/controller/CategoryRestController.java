@@ -4,6 +4,7 @@ import nl.zamro.pim.domain.Category;
 import nl.zamro.pim.service.CategoryService;
 import nl.zamro.pim.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,8 +43,16 @@ public class CategoryRestController {
     }
 
     @RequestMapping("/rest/save-category")
-    public void saveCategory(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name) {
-        Category category = new Category(id, name);
-        categoryService.saveCategory(category);
+    public void saveCategory(@RequestBody Category param) {
+        Optional<Category> category = categoryService.getById(param.getId());
+        if (category.isPresent()) {
+            Category dbCategory = category.get();
+            dbCategory.setName(param.getName());
+            categoryService.saveCategory(dbCategory);
+        } else {
+            categoryService.saveCategory(param);
+        }
     }
 }
+
+//curl -i -X PUT -H 'Content-Type: application/json' -d '{"id":"123","name":"Newton"}' http://localhost:8080/rest/save-category

@@ -5,9 +5,7 @@ import nl.zamro.pim.domain.Product;
 import nl.zamro.pim.service.CategoryService;
 import nl.zamro.pim.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -29,30 +27,36 @@ public class ProductRestController {
     }
 
     @RequestMapping("/rest/all-products")
-    public Iterable<Product> getAllCategories() {
+    public Iterable<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @RequestMapping("/rest/remove-product")
-    public void removeCategory(@RequestParam(value = "id") String id) {
+    public void removeProduct(@RequestParam(value = "id") String id) {
         Optional<Product> toBeRemoved = productService.getById(id);
         toBeRemoved.ifPresent(product -> productService.removeProduct(product));
     }
 
     @RequestMapping("/rest/save-product")
-    public void saveCategory(@RequestParam(value = "id") String id,
-                             @RequestParam(value = "name") String name,
-                             @RequestParam(value = "description") String description,
-                             @RequestParam(value = "min_order") short minOrder,
-                             @RequestParam(value = "measure_unit") String measureUnit,
-                             @RequestParam(value = "category_id") int categoryId,
-                             @RequestParam(value = "price") float price,
-                             @RequestParam(value = "is_available") boolean isAvailable) {
-        Optional<Category> category = categoryService.getById(categoryId);
+    public void saveProduct(@RequestBody Product param) {
+        Optional<Category> category = categoryService.getById(param.getCategory().getId());
         if (category.isPresent()) {
-            Product product = new Product(
-                    id, name, description, minOrder, measureUnit, category.get(), price, isAvailable);
-            productService.saveProduct(product);
+            Optional<Product> dbProduct = productService.getById(param.getId());
+            if (!dbProduct.isPresent()) {
+                productService.saveProduct(param);
+            } else {
+                Product product = dbProduct.get();
+                product.setName(param.getName());
+                product.setDescription(param.getDescription());
+                product.setMinOrderQuantity(param.getMinOrderQuantity());
+                product.setUnitOfMeasure(param.getUnitOfMeasure());
+                product.setCategory(param.getCategory());
+                product.setPrice(param.getPrice());
+                product.setAvailable(param.isAvailable());
+                productService.saveProduct(product);
+            }
         }
     }
 }
+
+//curl -i -X PUT -H 'Content-Type: application/json' -d '{"id":"123A","name":"Product Newton","description":"Desc","minOrderQuantity":"1","unitOfMeasure":"PR","category":{"id":"123","name":"ABC"},"price":"12.0","isAvailable":"true"}' http://localhost:8080/rest/save-product
